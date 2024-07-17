@@ -1,5 +1,5 @@
 import random
-import tabulate
+# import tabulate
 from ed_tech_user import User
 
 
@@ -109,6 +109,6 @@ class Learner(User):
                 all_users.append(
                 (value["user_id"], value["user_type"], value["name"], value["email_id"], value["password"], str(value["courses_enrolled"])))
 
-        table = tabulate.tabulate(all_users, headers, tablefmt = "pretty")
-        print(table)
+        # table = tabulate.tabulate(all_users, headers, tablefmt = "pretty")
+        # print(table)
         return headers, all_users

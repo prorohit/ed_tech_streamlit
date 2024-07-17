@@ -1,5 +1,5 @@
 import random
-import tabulate
+# import tabulate
 class User:
     users_database = []
     name = ""
@@ -47,7 +47,7 @@ class User:
         for value in users_objects_array:
             all_users.append((value["user_id"], value["name"], value["email_id"], value["password"]))
 
-        table = tabulate.tabulate(all_users, headers, tablefmt = "pretty")
+        # table = tabulate.tabulate(all_users, headers, tablefmt = "pretty")
         print(table)
 
     def update_email_id(self, email_id, newEmailId):

@@ -1,5 +1,5 @@
 import random
-import tabulate
+# import tabulate
 from ed_tech_user import User
 
 
@@ -110,28 +110,6 @@ class Instructor(User):
                 all_users.append(
                 (value["user_id"], value["user_type"], value["name"], value["email_id"], value["password"], str(value["courses_to_be_tought"])))
 
-        table = tabulate.tabulate(all_users, headers, tablefmt = "pretty")
-        print(table)
+        # table = tabulate.tabulate(all_users, headers, tablefmt = "pretty")
+        # print(table)
         return headers, all_users
-
-# learner = Learner()
-
-# learner.clear_users()
-
-# learner.create_learner_info()
-
-# learner.add_user_to_learner_db()
-
-# learner.create_learner_info()
-
-# learner.add_user_to_learner_db()
-
-# learner.print_records_in_tabular_form()
-
-# learner.add_course_info_to_learner(learner.users_database[0]["user_id"])
-
-# learner.print_records_in_tabular_form()
-
-# learner.delete_course_info_of_learner(learner.users_database[0]["user_id"])
-
-# learner.print_records_in_tabular_form()
