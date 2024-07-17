@@ -32,7 +32,7 @@ class Learner(User):
         record_found = False
         for index, user in enumerate(self.users_database):
             if str(user["user_id"]) == str(user_id):
-                dict_user = {"email_id": user["email_id"], "user_id": user["user_id"], "password": user["password"],
+                dict_user = {"email_id": user["email_id"],  "user_type": user["user_type"], "user_id": user["user_id"], "password": user["password"],
                              "name": user["name"], "courses_enrolled": courses}
                 self.users_database[index] = dict_user
                 return "Record deleted successfully"
@@ -86,7 +86,7 @@ class Learner(User):
         record_found = False
         user_info = User()
         for index, user in enumerate(self.users_database):
-            if user["user_id"] == user_id:
+            if ((user["user_id"] == user_id) and (user["user_type"] == "user_learner")):
                 record_found = True
                 user_info = user
                 break
@@ -100,13 +100,14 @@ class Learner(User):
         return record_found, user_info
 
     def print_records_in_tabular_form(self):
-        headers = ["Used ID", "Name", "Email Id", "Password", "Course info"]
+        headers = ["Used ID", "User Type", "Name", "Email Id", "Password", "Course info"]
         users_objects_array = self.users_database
         # print(users_objects_array)
         all_users = []
         for value in users_objects_array:
-            all_users.append(
-                (value["user_id"], value["name"], value["email_id"], value["password"], str(value["courses_enrolled"])))
+            if value["user_type"] == "user_learner":
+                all_users.append(
+                (value["user_id"], value["user_type"], value["name"], value["email_id"], value["password"], str(value["courses_enrolled"])))
 
         table = tabulate.tabulate(all_users, headers, tablefmt = "pretty")
         print(table)

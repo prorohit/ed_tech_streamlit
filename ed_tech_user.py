@@ -24,14 +24,15 @@ class User:
         self.email_id = email_id
         self.password = password
 
-    def create_user_info(self, name, email_id):
+    def create_user_info(self, name, email_id, user_type = "user_learner"):
         self.id = str(random.randint(10000, 50000))
         self.name = name
+        self.user_type = user_type
         self.email_id = email_id
         self.password = str(random.randint(100000, 600000))
 
     def create_user_info_dict(self):
-        return {"user_id": self.id, "name": self.name, "email_id": self.email_id, "password": self.password}
+        return {"user_id": self.id, "user_type": self.user_type, "name": self.name, "email_id": self.email_id, "password": self.password}
 
     def retrieve_users(self):
         return self.users_database
