@@ -1,12 +1,12 @@
 import random
 # import tabulate
-from ed_tech_leaner import Learner
+from ed_tech_enrollment import Enrollment
 
 class Course:
     courses_database = []
     course_name = ""
     id = 0
-    learner = Learner()
+    enrollemnt = Enrollment()
     def __init__(self):
         pass
 
@@ -28,20 +28,20 @@ class Course:
         course = self.create_course_info_dict()
         self.courses_database.append(course)
 
-    def remove_course(self, course_id, users = []):
-         record_found = False
-         for index, course in enumerate(self.courses_database):
-            if str(course["course_id"]) == str(course_id):
-                record_found = True
-                self.courses_database.remove(course)
-                for user in users:
-                    user_courses  = user["courses_enrolled"]
-                    for course in user_courses:
-                        if str(course["course_id"] == course_id):
-                            self.learner.delete_course_info_of_learner_st(str(user["user_id"] , str(course_id)))
-                return "Course deleted successfully"
-
-            if record_found is False:
+    def remove_course(self, course_id, users):
+         info = self.find_course_from_course_db(course_id)[0]
+         course_data = self.find_course_from_course_db(course_id)[1]
+         if info:
+            self.courses_database.remove(course_data)
+            for user in users:
+                user_courses  = user["courses_enrolled"]
+                tuple = self.try_course_from_course_db(course_id, user_courses)
+                if tuple[0]:
+                    self.enrollemnt.delete_course_info_of_learner_st(user["user_id"] , course_id)    
+                    return "Course deleted successfully"
+            return "Course deleted successfully"
+         else:
+            if info is False:
                 return f"No course found with course id{course_id}"
 
     def print_records_in_tabular_form(self):
@@ -61,51 +61,60 @@ class Course:
         filtered_users = []
         for user in users:
             print("User info", user)
-            courses = user["courses_enrolled"]
-            for course in courses:
-                if str(course_id) == str(course["course_id"]):
-                    filtered_users.append(user)
+            if user["user_type"] == "user_learner":
+                courses = user["courses_enrolled"]
+                for course in courses:
+                    if str(course_id) == str(course["course_id"]):
+                        filtered_users.append(user)
                 
-        headers = ["Used ID", "User Type", "Name", "Email Id", "Password", "Course info"]
+            headers = ["Used ID", "User Type", "Name", "Email Id", "Password", "Course info"]
 
-        all_users = []
-        for value in filtered_users:
-            if value["user_type"] == "user_learner":
-                all_users.append(
-                (value["user_id"], value["user_type"], value["name"], value["email_id"], value["password"], str(value["courses_enrolled"])))
-        return headers, all_users
+            all_users = []
+            for value in filtered_users:
+                if value["user_type"] == "user_learner":
+                    all_users.append(
+                    (value["user_id"], value["user_type"], value["name"], value["email_id"], value["password"], str(value["courses_enrolled"])))
+            return headers, all_users
+        
+    def get_all_instructors_records_with_course_id(self, course_id, users):
 
-    def update_email_id(self, email_id, newEmailId):
-        """
-        :param email_id:
-        :param newEmailId:
-        """
+        filtered_users = []
+        for user in users:
+            print("User info", user)
+            if user["user_type"] == "user_instructor":
+                courses = user["courses_to_be_tought"]
+                for course in courses:
+                    if str(course_id) == str(course["course_id"]):
+                        filtered_users.append(user)
+                
+            headers = ["Used ID", "User Type", "Name", "Email Id", "Password", "Courses To Be Tought"]
+
+            all_users = []
+            for value in filtered_users:
+                if value["user_type"] == "user_instructor":
+                    all_users.append(
+                    (value["user_id"], value["user_type"], value["name"], value["email_id"], value["password"], str(value["courses_to_be_tought"])))
+            return headers, all_users
+    
+    def find_course_from_course_db(self, course_id):
         record_found = False
-        for index, user in enumerate(self.users_database):
-            if user["email_id"] == email_id:
+        cours_info = {}
+        for index, course in enumerate(self.courses_database):
+            if ((course["course_id"] == course_id)):
                 record_found = True
-                dict_user = {"email_id": newEmailId, "user_id": user["user_id"], "password": user["password"],
-                             "name": user["name"]}
-                self.users_database[index] = dict_user
+                cours_info = course
+                break
 
-        if record_found:
-            print("Record updated successfully")
-        else:
-            print(f"{email_id} does not exists")
-
-    def update_password(self, email_id, new_pass):
-        """
-
-        """
+        return record_found, cours_info
+    
+    def try_course_from_course_db(self, course_id, courses):
         record_found = False
-        for index, user in enumerate(self.users_database):
-            if user["email_id"] == email_id:
+        cours_info = {}
+        for index, course in enumerate(courses):
+            if ((course["course_id"] == course_id)):
                 record_found = True
-                dict_user = {"email_id": user["email_id"], "user_id": user["user_id"], "password": new_pass,
-                             "name": user["name"]}
-                self.users_database[index] = dict_user
+                cours_info = course
+                break
 
-        if record_found:
-            print("Record updated successfully")
-        else:
-            print(f"{email_id} does not exists to update the password")
+        return record_found, cours_info
+

@@ -19,27 +19,76 @@ def main():
     course = Course()
     enrollment = Enrollment()
     st.sidebar.title("SL Tech System")
-    choice = st.sidebar.radio("Learner Menu", ['Add Learners', 
-                                       'Display Leaners', 
-                                       'Add course(s) to learner', 
-                                       'Remove course from learner',
-                                       "#Instructor Module*",
-                                       "Add Instructor",
-                                       "Display Instructors",
-                                       "Add course(s) to Instructor",
-                                       "Remove course from Instructor",
-                                       "*Course Module*",
-                                       "Add Course",
-                                       "Display all courses",
-                                       "Remove course",
-                                       "Assign course to a learner",
-                                       "Fetch all learners",
-                                       'Exit'])
+    choice = st.sidebar.radio("Learner Menu", [
+                                        "*Course Module*",
+                                        "Add Course",
+                                        "Display all courses",
+                                        "Remove course",
+                                        "*Learners module*",
+                                        "Add Learner",  
+                                        "Display Leaners", 
+                                        "*Instructor Module*",
+                                        "Add Instructor",
+                                        "Display Instructors",
+                                        "*Enrollement Module*",
+                                        "Add course(s) to learner",
+                                        "Fetch all learners",
+                                        "Remove course from learner",
+                                        "Add course(s) to Instructor",
+                                        "Remove course from Instructor",
+                                        "Fetch all instructors",
+                                        "Exit"
+                                       ])
+    
+      #
+        #Course Module start
+      #
+    if choice == "*Course Module*":
+        st.write("""# In this module we will be managing all the operations for course management""")
+        st.write("""### 1. Add Course""")
+        st.write("""### 2. Display all courses""")
+        st.write("""### 3. Remove course""")
+
+    if choice == "Add Course":
+        course_name = st.text_input("Enter course name:")
+        if st.button("Add Course"):
+            course.add_course(course_name)
+            st.session_state.courses = course.courses_database
+            st.success(f"{course_name} added in courses successfully!")
+    
+    if choice == "Display all courses":
+        if st.session_state.courses:
+            tableHeaders, available_courses_list = course.print_records_in_tabular_form()      
+            df_course_info = pd.DataFrame(available_courses_list, columns=tableHeaders)
+            st.write(df_course_info)
+        else:
+            st.warning("No courses found. Please add a course first.")  
+
+    if choice == "Remove course":
+        tableHeaders, available_courses_list = course.print_records_in_tabular_form()     
+        table_learnr_Headers, available_learners_list = learner.print_records_in_tabular_form()  
+ 
+        pretty_course_array = []
+        for value in available_courses_list:
+            str = f"{value[0]} - {value[1]}"
+            pretty_course_array.append(str)
+        option = st.selectbox("Do you want to remove course?", pretty_course_array, index=None,placeholder="Select course to remove...",)
+        if option is not None:
+            st.write("You selected:", None if option is None else option)
+        
+        if st.button("Remove Course from course list"):
+            course_info = option.split(" - ")
+            st.success(course.remove_course(course_info[0], learner.users_database))
     
      #
         #Learner's Module start
      #
-    if choice == 'Add Learners':
+    if choice == "*Learners module*":
+        st.write("""# In this module we will be managing all the learners operations""")
+        st.write("""### 1. Add Learner""")
+        st.write("""### 2. Display all Learners""")
+
+    if choice == 'Add Learner':
         leaner_name = st.text_input("Enter learner name:")
         leaner_email_id = st.text_input("Enter learner email id:")
        
@@ -61,6 +110,58 @@ def main():
             st.write(df_available_cars)
         else:
             st.warning("No learners found. Please add a learner first.")
+
+     #
+        #Instructor's Module start
+     #
+    if choice == "*Instructor Module*":
+        st.write("""# In this module we will be managing all the operations for Instructor""")
+        st.write("""### 1. Add Instructor""")
+        st.write("""### 2. Display all Instructors""")
+        # st.write("""### 3. Assign course which will be tought by Instructor""")
+        # st.write("""### 4. Remove any assigned to the Instructor""")
+
+    if choice == "Add Instructor":
+        instructor_name = st.text_input("Enter Instructor name:")
+        instructor_email_id = st.text_input("Enter Instructor email id:")
+       
+        if st.button("Add Instructor"):
+             instructor.create_user_info(instructor_name, instructor_email_id, "user_instructor")
+             instructor.create_instructor_info_with_name_email()
+             instructor.add_user_to_instructor_db_st()
+             st.session_state.users = instructor.users_database
+             st.success(f"{instructor_email_id} email id added successfully!")
+    
+    elif choice == 'Display Instructors':
+        if st.session_state.users:
+            tableHeaders, available_instructors_list = instructor.print_records_in_tabular_form()      
+            headers = ["Used ID", "User Type", "Name", "Email Id", "Password", "Course info"]
+            df_instructors_info = pd.DataFrame(available_instructors_list, columns=tableHeaders)
+            st.write(df_instructors_info)
+        else:
+            st.warning("No instructors found. Please add a instructor first.")   
+
+    
+    #
+        #Enrollment Module start
+     #
+
+    if choice == "Fetch all learners":
+        tableHeaders, available_courses_list = course.print_records_in_tabular_form()      
+        pretty_course_array = []
+        for value in available_courses_list:
+            str = f"{value[0]} - {value[1]}"
+            pretty_course_array.append(str)
+        option = st.selectbox("Fetch users for the below course", pretty_course_array, index=None,placeholder="Select course...",)
+        if option is not None:
+            st.write("You selected:", None if option is None else option)
+
+        if st.button("Fetch learners"):
+            course_info= option.split(" - ")
+            tableHeaders, filtered_learners = course.get_all_learners_records_with_course_id(course_info[0], learner.users_database)
+            df_learners_info = pd.DataFrame(filtered_learners, columns=tableHeaders)
+            st.write(df_learners_info)
+   
 
     elif choice == 'Add course(s) to learner':
         if st.session_state.users and st.session_state.courses:
@@ -89,6 +190,7 @@ def main():
         else:
             st.warning("No course and instructors found. Please add a instructor and a course first.")
 
+
     elif choice == 'Remove course from learner':
         if st.session_state.users and st.session_state.courses:
           
@@ -116,36 +218,7 @@ def main():
         else:
             st.warning("No course and leaners found. Please add a learner and a course first.")
 
-     #
-        #Instructor's Module start
-     #
-    if choice == "*Instructor Module*":
-        st.write("""# In this module we will be managing all the operations for Instructor""")
-        st.write("""### 1. Add Instructor""")
-        st.write("""### 2. Display all Instructors""")
-        st.write("""### 3. Assign course which will be tought by Instructor""")
-        st.write("""### 4. Remove any assigned to the Instructor""")
-
-    if choice == "Add Instructor":
-        instructor_name = st.text_input("Enter Instructor name:")
-        instructor_email_id = st.text_input("Enter Instructor email id:")
-       
-        if st.button("Add Instructor"):
-             instructor.create_user_info(instructor_name, instructor_email_id, "user_instructor")
-             instructor.create_instructor_info_with_name_email()
-             instructor.add_user_to_instructor_db_st()
-             st.session_state.users = instructor.users_database
-             st.success(f"{instructor_email_id} email id added successfully!")
     
-    elif choice == 'Display Instructors':
-        if st.session_state.users:
-            tableHeaders, available_instructors_list = instructor.print_records_in_tabular_form()      
-            headers = ["Used ID", "User Type", "Name", "Email Id", "Password", "Course info"]
-            df_instructors_info = pd.DataFrame(available_instructors_list, columns=tableHeaders)
-            st.write(df_instructors_info)
-        else:
-            st.warning("No instructors found. Please add a instructor first.")   
-
     elif choice == 'Add course(s) to Instructor':
         if st.session_state.users and st.session_state.courses:
             
@@ -200,73 +273,8 @@ def main():
                 st.success(result)
         else:
             st.warning("No courses and instructors found. Please add a instructor and a course first.")
-   
 
-      #
-        #Course Module start
-      #
-    if choice == "*Course Module*":
-        st.write("""# In this module we will be managing all the operations for course management""")
-        st.write("""### 1. Add Course""")
-        st.write("""### 2. Display all courses""")
-        st.write("""### 3. Remove course""")
-        st.write("""### 4. Assign course to a learner""")
-
-
-    if choice == "Add Course":
-        course_name = st.text_input("Enter course name:")
-        if st.button("Add Course"):
-            course.add_course(course_name)
-            st.session_state.courses = course.courses_database
-            st.success(f"{course_name} added in courses successfully!")
-    
-    if choice == "Display all courses":
-        if st.session_state.courses:
-            tableHeaders, available_courses_list = course.print_records_in_tabular_form()      
-            df_course_info = pd.DataFrame(available_courses_list, columns=tableHeaders)
-            st.write(df_course_info)
-        else:
-            st.warning("No courses found. Please add a course first.")  
-
-    if choice == "Remove course":
-        tableHeaders, available_courses_list = course.print_records_in_tabular_form()     
-        table_learnr_Headers, available_learners_list = learner.print_records_in_tabular_form()  
- 
-        pretty_course_array = []
-        for value in available_courses_list:
-            str = f"{value[0]} - {value[1]}"
-            pretty_course_array.append(str)
-        option = st.selectbox("Do you want to remove course?", pretty_course_array, index=None,placeholder="Select course to remove...",)
-        if option is not None:
-            st.write("You selected:", None if option is None else option)
-        
-        if st.button("Remove Course"):
-            course_delete_id = option.split(" - ")
-            st.success(course.remove_course(course_delete_id[0], learner.users_database))
-    
-    if choice == "Assign course to a learner":
-        tableHeaders, available_learners_list = learner.print_records_in_tabular_form()  
-        tableHeaders, available_courses_list = course.print_records_in_tabular_form()   
-
-        pretty_course_array = []
-        for value in available_courses_list:
-            str = f"{value[0]} - {value[1]}"
-            pretty_course_array.append(str)
-
-        pretty_learners_array = []
-        for value in available_learners_list:
-            str = f"{value[0]} - {value[2]}"
-            pretty_learners_array.append(str)   
-
-        option_course = st.selectbox("Courses List", pretty_course_array, index=None,placeholder="Select course...",)
-        option_learner = st.selectbox("Learner List", pretty_learners_array, index=None,placeholder="Select learner...",)
-
-        if st.button("Assign Course"):
-            course_info= option_course.split(" - ")
-            learner_info = option_learner.split(" - ")
-            st.success(learner.add_course_info_to_learner_profile_st(learner_info[0], course_info[0], course_info[1]))
-
-    if choice == "Fetch all learners":
+    elif choice == "Fetch all instructors":
         tableHeaders, available_courses_list = course.print_records_in_tabular_form()      
         pretty_course_array = []
         for value in available_courses_list:
@@ -276,11 +284,12 @@ def main():
         if option is not None:
             st.write("You selected:", None if option is None else option)
 
-        if st.button("Fetch learners"):
+        if st.button("Fetch all instrucros"):
             course_info= option.split(" - ")
-            tableHeaders, filtered_learners = course.get_all_learners_records_with_course_id(course_info[0], learner.users_database)
+            tableHeaders, filtered_learners = course.get_all_instructors_records_with_course_id(course_info[0], learner.users_database)
             df_learners_info = pd.DataFrame(filtered_learners, columns=tableHeaders)
             st.write(df_learners_info)
+
     elif choice == 'Exit':
         learner.clear_users()
         instructor.clear_users()
