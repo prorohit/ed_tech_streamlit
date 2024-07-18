@@ -27,6 +27,18 @@ class Learner(User):
                     return f"{course_info} added successfully"
         else:
             return "User does not exist"
+        
+    def add_course_info_to_learner_profile_st(self, user_id, course_id, course_name):
+        tuple_user = self.find_user_from_learner_db(user_id)
+        if tuple_user[0] is True:
+            course_info = {"course_name": course_name, "course_id": course_id}
+            for index, userInfo in enumerate(self.users_database):
+                if userInfo["user_id"] == tuple_user[1]["user_id"]:
+                    userInfo["courses_enrolled"].append(course_info)
+                    self.users_database[index] = userInfo
+                    return f"{course_info} added successfully"
+        else:
+            return "User does not exist"
 
     def update_course_info_for_user_st(self, user_id, courses):
         record_found = False
@@ -65,8 +77,14 @@ class Learner(User):
 
     def add_user_to_learner_db_st(self):
         userLearner = self.create_learner_info_with_name_email()
+        if len(self.users_database) > 0:
+            for user in self.users_database:
+                if str(userLearner["email_id"]) == str(user["email_id"]):
+                    return False
+                
         self.users_database.append(userLearner)
-
+        return True
+    
     def delete_user_to_learner_db(self, user_id):
         self.print_records_in_tabular_form()
         print("Please copy the user id from above table to which you want to delete")
