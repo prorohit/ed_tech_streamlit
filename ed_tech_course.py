@@ -38,7 +38,7 @@ class Course:
                     user_courses  = user["courses_enrolled"]
                     for course in user_courses:
                         if str(course["course_id"] == course_id):
-                            self.learner.delete_course_info_of_learner_st(str(user["user_id"] == str(course_id)))
+                            self.learner.delete_course_info_of_learner_st(str(user["user_id"] , str(course_id)))
                 return "Course deleted successfully"
 
             if record_found is False:
@@ -60,6 +60,7 @@ class Course:
 
         filtered_users = []
         for user in users:
+            print("User info", user)
             courses = user["courses_enrolled"]
             for course in courses:
                 if str(course_id) == str(course["course_id"]):

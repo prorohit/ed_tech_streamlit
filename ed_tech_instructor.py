@@ -15,10 +15,9 @@ class Instructor(User):
         dict_instrcutor["courses_to_be_tought"] = self.courses_to_be_tought
         return dict_instrcutor
 
-    def add_course_info_to_instructor_st(self, user_id, course_name):
+    def add_course_info_to_instructor_st(self, user_id, course_name, course_id):
         tuple_user = self.find_user_from_instructor_db(user_id)
         if tuple_user[0] is True:
-            course_id = str(random.randint(100, 500))
             course_info = {"course_name": course_name, "course_id": course_id}
             for index, userInfo in enumerate(self.users_database):
                 if userInfo["user_id"] == tuple_user[1]["user_id"]:

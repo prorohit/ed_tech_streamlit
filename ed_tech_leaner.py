@@ -14,19 +14,6 @@ class Learner(User):
         self.enroll_for_course([])
         dict_learner["courses_enrolled"] = self.courses_enrolled
         return dict_learner
-
-    def add_course_info_to_learner_st(self, user_id, course_name):
-        tuple_user = self.find_user_from_learner_db(user_id)
-        if tuple_user[0] is True:
-            course_id = str(random.randint(100, 500))
-            course_info = {"course_name": course_name, "course_id": course_id}
-            for index, userInfo in enumerate(self.users_database):
-                if userInfo["user_id"] == tuple_user[1]["user_id"]:
-                    userInfo["courses_enrolled"].append(course_info)
-                    self.users_database[index] = userInfo
-                    return f"{course_info} added successfully"
-        else:
-            return "User does not exist"
         
     def add_course_info_to_learner_profile_st(self, user_id, course_id, course_name):
         tuple_user = self.find_user_from_learner_db(user_id)
