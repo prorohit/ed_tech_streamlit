@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 from ed_tech_leaner import Learner
 from ed_tech_instructor import Instructor
-from ed_tech_user import User
 from ed_tech_course import Course
 from ed_tech_enrollment import Enrollment
 
@@ -102,7 +101,7 @@ def main():
              else:
                 st.error(f"{leaner_email_id} email id already exists!")
              
-    elif choice == 'Display Leaners':
+    if choice == 'Display Leaners':
         if st.session_state.users:
             tableHeaders, available_learners_list = learner.print_records_in_tabular_form()      
             headers = ["Used ID", "User Type" "Name", "Email Id", "Password", "Course info"]
@@ -132,7 +131,7 @@ def main():
              st.session_state.users = instructor.users_database
              st.success(f"{instructor_email_id} email id added successfully!")
     
-    elif choice == 'Display Instructors':
+    if choice == 'Display Instructors':
         if st.session_state.users:
             tableHeaders, available_instructors_list = instructor.print_records_in_tabular_form()      
             headers = ["Used ID", "User Type", "Name", "Email Id", "Password", "Course info"]
@@ -145,6 +144,16 @@ def main():
     #
         #Enrollment Module start
      #
+    
+    if choice == "*Enrollement Module*":
+        st.write("""# In this module we will be managing all the assinement of courses to learners and instructors""")
+        st.write("""### 1. Fetch all learners""")
+        st.write("""### 2. Add course(s) to learner""")
+        st.write("""### 3. Remove course from learner""")
+        st.write("""### 4. Add course(s) to Instructor""")
+        st.write("""### 5. Remove course from Instructor""")
+        st.write("""### 6. Fetch all instructors""")
+
 
     if choice == "Fetch all learners":
         tableHeaders, available_courses_list = course.print_records_in_tabular_form()      
@@ -163,7 +172,7 @@ def main():
             st.write(df_learners_info)
    
 
-    elif choice == 'Add course(s) to learner':
+    if choice == 'Add course(s) to learner':
         if st.session_state.users and st.session_state.courses:
             
             table_learnr_Headers, available_learners_list = learner.print_records_in_tabular_form()  
@@ -191,7 +200,7 @@ def main():
             st.warning("No course and instructors found. Please add a instructor and a course first.")
 
 
-    elif choice == 'Remove course from learner':
+    if choice == 'Remove course from learner':
         if st.session_state.users and st.session_state.courses:
           
             table_learnr_Headers, available_learners_list = learner.print_records_in_tabular_form()  
@@ -219,7 +228,7 @@ def main():
             st.warning("No course and leaners found. Please add a learner and a course first.")
 
     
-    elif choice == 'Add course(s) to Instructor':
+    if choice == 'Add course(s) to Instructor':
         if st.session_state.users and st.session_state.courses:
             
             table_ins_Headers, available_instructors_list = instructor.print_records_in_tabular_form()  
@@ -246,7 +255,7 @@ def main():
         else:
             st.warning("No course and instructors found. Please add a instructor and a course first.")        
 
-    elif choice == 'Remove course from Instructor':
+    if choice == 'Remove course from Instructor':
         if st.session_state.users and st.session_state.courses:
             st.write("""# Choose user and course from this list """)
 
@@ -274,7 +283,7 @@ def main():
         else:
             st.warning("No courses and instructors found. Please add a instructor and a course first.")
 
-    elif choice == "Fetch all instructors":
+    if choice == "Fetch all instructors":
         tableHeaders, available_courses_list = course.print_records_in_tabular_form()      
         pretty_course_array = []
         for value in available_courses_list:
@@ -286,11 +295,11 @@ def main():
 
         if st.button("Fetch all instrucros"):
             course_info= option.split(" - ")
-            tableHeaders, filtered_learners = course.get_all_instructors_records_with_course_id(course_info[0], learner.users_database)
+            tableHeaders, filtered_learners = course.get_all_instructors_records_with_course_id(course_info[0], instructor.users_database)
             df_learners_info = pd.DataFrame(filtered_learners, columns=tableHeaders)
             st.write(df_learners_info)
 
-    elif choice == 'Exit':
+    if choice == 'Exit':
         learner.clear_users()
         instructor.clear_users()
         course.clear_courses()
