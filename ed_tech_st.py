@@ -18,7 +18,7 @@ def main():
     choice = st.sidebar.radio("Learner Menu", ['Add Learners', 
                                        'Display Leaners', 
                                        'Add course(s) to learner', 
-                                       'Remove course from leaner',
+                                       'Remove course from learner',
                                        "*Instructor Module*",
                                        "Add Instructor",
                                        "Display Instructors",
@@ -86,7 +86,7 @@ def main():
                 result = instructor.delete_course_info_of_instructor_st(instructor_id, course_id)
                 st.success(result)
         else:
-            st.warning("No course and leaners found. Please add a learner and a course first.")
+            st.warning("No courses and instructors found. Please add a instructor and a course first.")
     #
         #Leaerner's Module start
     #
@@ -126,9 +126,9 @@ def main():
                 result = learner.add_course_info_to_learner_st(learner_id, course_name)
                 st.success(result)
         else:
-            st.warning("No course and leaners found. Please add a learner and a course first.")
+            st.warning("No course and instructors found. Please add a instructor and a course first.")
 
-    elif choice == 'Remove course from leaner':
+    elif choice == 'Remove course from learner':
         if st.session_state.users:
             st.write("""# Choose user id and course from this list """)
             tableHeaders, available_learners_list = learner.print_records_in_tabular_form()      
