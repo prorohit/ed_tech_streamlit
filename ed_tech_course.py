@@ -7,6 +7,7 @@ class Course:
     course_name = ""
     id = 0
     enrollemnt = Enrollment()
+    
     def __init__(self):
         pass
 

@@ -67,21 +67,6 @@ class Instructor(User):
         userLearner = self.create_instructor_info_with_name_email()
         self.users_database.append(userLearner)
 
-    # def delete_user_to_learner_db(self, user_id):
-    #     self.print_records_in_tabular_form()
-    #     print("Please copy the user id from above table to which you want to delete")
-    #     record_found = False
-    #     for index, user in enumerate(self.users_database):
-    #         if user["user_id"] == user_id:
-    #             record_found = True
-    #             self.users_database.remove(user)
-
-    #     if record_found:
-    #         print("Record deleted successfully")
-    #         self.print_records_in_tabular_form()
-    #     else:
-    #         print(f"User with {user_id} does not exists")
-
     def find_user_from_instructor_db(self, user_id):
         record_found = False
         user_info = Instructor()
