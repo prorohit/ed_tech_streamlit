@@ -168,7 +168,7 @@ def main():
             if st.button("Assign course"):
                 course_info= option_course.split(" - ")
                 ins_info = option_ins.split(" - ")
-                result = instructor.add_course_info_to_instructor_st(ins_info[0], course_info[1], course_info[0])
+                result = enrollment.add_course_info_to_instructor_st(ins_info[0], course_info[1], course_info[0])
                 st.success(result)
         else:
             st.warning("No course and instructors found. Please add a instructor and a course first.")        
@@ -176,13 +176,6 @@ def main():
     elif choice == 'Remove course from Instructor':
         if st.session_state.users and st.session_state.courses:
             st.write("""# Choose user and course from this list """)
-            # tableHeaders, available_instructors_list = instructor.print_records_in_tabular_form()      
-            # headers = ["Used ID","User Type", "Name", "Email Id", "Password", "Course info"]
-            # df_instructors_info = pd.DataFrame(available_instructors_list, columns=tableHeaders)
-            # st.write(df_instructors_info)
-
-            # instructor_id = st.text_input("Enter user id:")
-            # course_id = st.text_input("Enter course id:") 
 
             table_ins_Headers, available_instructors_list = instructor.print_records_in_tabular_form()  
             table_course_Headers, available_courses_list = course.print_records_in_tabular_form()   
@@ -203,7 +196,7 @@ def main():
             if st.button("Remove course from Instructor"):
                 course_info= option_course.split(" - ")
                 ins_info = option_ins.split(" - ")
-                result = instructor.delete_course_info_of_instructor_st(ins_info[0], course_info[0])
+                result = enrollment.delete_course_info_of_instructor_st(ins_info[0], course_info[0])
                 st.success(result)
         else:
             st.warning("No courses and instructors found. Please add a instructor and a course first.")
