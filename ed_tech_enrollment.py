@@ -1,7 +1,7 @@
 import random
 from ed_tech_user import User
 from ed_tech_instructor import Instructor
-from ed_tech_leaner import Learner
+from ed_tech_learner import Learner
 # import tabulate
 class Enrollment:
 
