@@ -303,7 +303,7 @@ def main():
         learner.clear_users()
         instructor.clear_users()
         course.clear_courses()
-        st.success("Clearing all users")
+        st.success("Clearing all leaners, course and instructors")
         st.write("Exiting the system. Goodbye!")
 
 if __name__ == "__main__":
