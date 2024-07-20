@@ -58,7 +58,7 @@ class Course:
     
 
     def get_all_learners_records_with_course_id(self, course_id, users):
-
+        print(users)
         filtered_users = []
         for user in users:
             print("User info", user)
@@ -67,15 +67,17 @@ class Course:
                 for course in courses:
                     if str(course_id) == str(course["course_id"]):
                         filtered_users.append(user)
+        
                 
-            headers = ["Used ID", "User Type", "Name", "Email Id", "Password", "Course info"]
+        headers = ["Used ID", "User Type", "Name", "Email Id", "Password", "Course info"]
 
-            all_users = []
-            for value in filtered_users:
-                if value["user_type"] == "user_learner":
-                    all_users.append(
-                    (value["user_id"], value["user_type"], value["name"], value["email_id"], value["password"], str(value["courses_enrolled"])))
-            return headers, all_users
+        all_users = []
+        for value in filtered_users:
+            if value["user_type"] == "user_learner":
+                all_users.append(
+                (value["user_id"], value["user_type"], value["name"], value["email_id"], value["password"], str(value["courses_enrolled"])))
+            
+        return headers, all_users
         
     def get_all_instructors_records_with_course_id(self, course_id, users):
 
@@ -88,14 +90,15 @@ class Course:
                     if str(course_id) == str(course["course_id"]):
                         filtered_users.append(user)
                 
-            headers = ["Used ID", "User Type", "Name", "Email Id", "Password", "Courses To Be Tought"]
+        headers = ["Used ID", "User Type", "Name", "Email Id", "Password", "Courses To Be Tought"]
 
-            all_users = []
-            for value in filtered_users:
-                if value["user_type"] == "user_instructor":
-                    all_users.append(
-                    (value["user_id"], value["user_type"], value["name"], value["email_id"], value["password"], str(value["courses_to_be_tought"])))
-            return headers, all_users
+        all_users = []
+        for value in filtered_users:
+            if value["user_type"] == "user_instructor":
+                all_users.append(
+                (value["user_id"], value["user_type"], value["name"], value["email_id"], value["password"], str(value["courses_to_be_tought"])))
+            
+        return headers, all_users
     
     def find_course_from_course_db(self, course_id):
         record_found = False

@@ -167,7 +167,7 @@ def main():
 
         if st.button("Fetch learners"):
             course_info= option.split(" - ")
-            tableHeaders, filtered_learners = course.get_all_learners_records_with_course_id(course_info[0], learner.users_database)
+            tableHeaders, filtered_learners = course.get_all_learners_records_with_course_id(course_info[0], st.session_state.users)
             df_learners_info = pd.DataFrame(filtered_learners, columns=tableHeaders)
             st.write(df_learners_info)
    
@@ -295,7 +295,7 @@ def main():
 
         if st.button("Fetch all instrucros"):
             course_info= option.split(" - ")
-            tableHeaders, filtered_learners = course.get_all_instructors_records_with_course_id(course_info[0], instructor.users_database)
+            tableHeaders, filtered_learners = course.get_all_instructors_records_with_course_id(course_info[0], st.session_state.users)
             df_learners_info = pd.DataFrame(filtered_learners, columns=tableHeaders)
             st.write(df_learners_info)
 
