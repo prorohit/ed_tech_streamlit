@@ -1,5 +1,5 @@
 # Ed Tech App
-## This is the coding excesise of python project and streamlit implementation
+## This is the coding exercise of python project and streamlit implementation
 
 In this application we have covered the below modules as per the requirement of the excercise
     
