@@ -1,7 +1,7 @@
 # Ed Tech App
 ## This is the coding exercise of python project and streamlit implementation
 
-In this application we have covered the below modules as per the requirement of the excercise
+In this application we have covered the below modules as per the requirement of the exercise
     
     "*Course Module*"
         "Add Course"
@@ -10,13 +10,13 @@ In this application we have covered the below modules as per the requirement of 
         
     "*Learners module*"
         "Add Learner" 
-        "Display Leaners"
+        "Display Learners"
 
     "*Instructor Module*"
         "Add Instructor"
         "Display Instructors"
     
-    "*Enrollement Module*"
+    "*Enrollment Module*"
         "Add course(s) to learner"
         "Fetch all learners"
         "Remove course from learner"
