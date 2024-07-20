@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from ed_tech_leaner import Learner
+from ed_tech_learner import Learner
 from ed_tech_instructor import Instructor
 from ed_tech_course import Course
 from ed_tech_enrollment import Enrollment
