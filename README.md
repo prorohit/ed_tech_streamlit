@@ -30,8 +30,8 @@ In this application we have covered the below modules as per the requirement of 
 
 | Website | README/DEMO |
 | ------ | ------ |
-| Youtube | <https://github.com/joemccann/dillinger> |
-| GitHub | <https://github.com/joemccann/dillinger> |
+| Youtube | <https://www.youtube.com/watch?v=1D3EIGhY9lA> |
+| GitHub | <https://github.com/prorohit/ed_tech_streamlit> |
 
 ## License
 
