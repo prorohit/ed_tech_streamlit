@@ -26,7 +26,12 @@ In this application we have covered the below modules as per the requirement of 
         "Exit"
 
 
-## Exercise artifacts and demo
+## Working online Demo
+
+| Website | DEMO |
+| ------ | ------ |
+| Streamlit App | <https://prorohit-ed-tech-streamlit-ed-tech-st-dyf28t.streamlit.app> |
+## Exercise artifacts
 
 | Website | README/DEMO |
 | ------ | ------ |
